@@ -23,9 +23,9 @@ class Wrapper
     return $this->executeRequest('people','POST',$person);
   }
 
-  public function findPerson ( )
+  public function findPerson ( $id  )
   {
-    $result = $this->executeRequest('people','GET');
+    $result = $this->executeRequest('people/'.$id,'GET');
     return new Person($result);
   }
 
