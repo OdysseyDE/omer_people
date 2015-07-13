@@ -5,7 +5,7 @@ if ( false === function_exists('lcfirst') ):
   { return (string)(strtolower(substr($str,0,1)).substr($str,1));}
 endif;
 
-// Pflichtangaben, die local/config enthalten sein m�ssen
+// Pflichtangaben, die local/config enthalten sein müssen
 $pflichtAngaben = array('DB' => array('Host',
                                       'Database',
                                       'User',
@@ -18,7 +18,7 @@ $localConf = dirname(__FILE__).'/../local/config.php';
 if ( !file_exists($localConf) )
   {
     if ( ($fh = @fopen($localConf,'w')) === false )
-      die("Nicht m�glich, $localConf anzulegen, Rechteproblem?");
+      die("Nicht möglich, $localConf anzulegen, Rechteproblem?");
 
     fputs($fh,"<?php\n");
     foreach ( $pflichtAngaben as $title => $angaben )
@@ -36,7 +36,7 @@ if ( !file_exists($localConf) )
 require_once('config.php');
 require_once($localConf);
 
-// pr�fen, ob alle Pflichtangabe gesetzt sind
+// prüfen, ob alle Pflichtangabe gesetzt sind
 foreach ( $pflichtAngaben as $title => $angaben )
 {
   foreach ( $angaben as $angabe )
@@ -51,8 +51,10 @@ $paths = array($GLOBALS['Settings']['RootPath'],
 	       $GLOBALS['Settings']['RootPath']."/include",
 
 	       $GLOBALS['Settings']['RootPath']."/Controller",
+	       $GLOBALS['Settings']['RootPath']."/Gateway",
 	       );
 ini_set('include_path',implode(":",$paths));
+
 
 function autoload ( $class )
 {
@@ -62,6 +64,7 @@ function autoload ( $class )
     include_once(str_replace('_','/',$class).".php");
 }
 spl_autoload_register('autoload');
+require $GLOBALS['Settings']['RootPath'].'/vendor/autoload.php';
 
 set_exception_handler('ExceptionHandler');
 set_error_handler('ErrorHandler');
