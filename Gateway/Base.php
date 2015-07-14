@@ -7,7 +7,7 @@ class Gateway_Base
   
   final public function __construct ( )
   {
-    $dsn = sprintf('mysql:dbname=%s;host=%s;charset=utf8',$this->databaseName(),$GLOBALS['Settings']['DB']['Host']);
+    $dsn = sprintf('pgsql:host:%s;dbname=%s',$GLOBALS['Settings']['DB']['Host'],$this->databaseName());
     try
       {
         $this->connection = new PDO($dsn,$GLOBALS['Settings']['DB']['User'],$GLOBALS['Settings']['DB']['Password']);

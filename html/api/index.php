@@ -9,6 +9,6 @@
   $server = new RestServer($mode);
   // $server->refreshCache(); // uncomment momentarily to clear the cache if classes change in production mode
   // $server->addClass('TestController');
-  $server->addClass('PeopleController', '/'); // adds this as a base to all the URLs in this class
+  $server->addClass('PeopleController', '/people/'); // adds this as a base to all the URLs in this class
   $server->handle();
 ?>

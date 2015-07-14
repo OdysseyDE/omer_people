@@ -1,25 +1,42 @@
 <?php
+  
+  use Jacwright\RestServer\RestException;
 
 class PeopleController{
+  
   /**
-   * Returns a JSON string object to the browser when hitting the root of the domain
+   * Gibt das aktuelle Datum zurück.
    *
    * @url GET /
    */
   public function test()
   {
-    return "Hello World";
+    return ["date" => date(DateTime::ISO8601)];
   }
 
-    /**
-   * Returns a JSON string object to the browser when hitting the root of the domain
+  /**
+   * phpinfo()
    *
-   * @url GET /foo
+   * @url GET /php
    */
-  public function test2()
+  public function php()
   {
-    $obj = (object) ['foo' => 'bar', 'blakeks' => 42];
-    return $obj;
+    if($GLOBALS['Debugging'] != 1){
+      throw new RestException(403, 'Zugriff verweigert!');
+    }
+    return phpinfo();
+  }
+
+  /**
+   * DB-Config
+   *
+   * @url GET /db
+   */
+  public function db(){
+    if($GLOBALS['Debugging'] != 1){
+      throw new RestException(403, 'Zugriff verweigert!');
+    }
+    return array_merge($GLOBALS['Settings']['DB'],['pdo_drivers' => PDO::getAvailableDrivers()]);
   }
 
 }
