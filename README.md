@@ -3,6 +3,7 @@ Personenverwaltung für Odyssey of the Mind Deutschland e.V.
 
 # Vorraussetzungen
 - PHP >5.5
+- php5-pgsql
 - composer
 - PostgreSQL >9.5
 
