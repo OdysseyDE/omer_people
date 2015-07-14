@@ -24,9 +24,6 @@ class Gateway_Base
     return new $className;
   }
 
-  
-
-
 
   public function query ( $sql, $data = array() )
   {
@@ -89,10 +86,6 @@ class Gateway_Base
     return $GLOBALS['Settings']['DB']['Database'];
   }
 
-
-
-
-
   public function findOne ( $id )
   {
     if ( $id == 0 )
@@ -111,15 +104,6 @@ class Gateway_Base
     return $this->getAll($sql);
   }
   
-  
-
-
-
-
-
-
-
-
   protected function getValue ( $value, $colName, &$sql, &$data, $emptyStringIsNull = true )
   {
     if ( $value === null || ($value === '' && $emptyStringIsNull) )
@@ -159,10 +143,6 @@ class Gateway_Base
     $data[] = $id;
     return $this->query($update,$data);
   }
-
-  
-
-
 
   private function executeStatement ( $sql, $data, $stopOnError = true )
   {

@@ -8,6 +8,7 @@ class PeopleController{
    * Gibt das aktuelle Datum zurück.
    *
    * @url GET /
+   * @noAuth
    */
   public function test()
   {
@@ -36,7 +37,10 @@ class PeopleController{
     if($GLOBALS['Debugging'] != 1){
       throw new RestException(403, 'Zugriff verweigert!');
     }
-    return array_merge($GLOBALS['Settings']['DB'],['pdo_drivers' => PDO::getAvailableDrivers()]);
+    return array_merge(
+           $GLOBALS['Settings']['DB'],
+           ['pdo_drivers' => PDO::getAvailableDrivers()]
+    );
   }
 
 }
