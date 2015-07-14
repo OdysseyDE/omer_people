@@ -52,6 +52,7 @@ $paths = array($GLOBALS['Settings']['RootPath'],
 
 	       $GLOBALS['Settings']['RootPath']."/Controller",
 	       $GLOBALS['Settings']['RootPath']."/Gateway",
+	       $GLOBALS['Settings']['RootPath']."/Model",
 	       );
 ini_set('include_path',implode(":",$paths));
 
