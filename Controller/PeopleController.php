@@ -43,7 +43,7 @@ class PeopleController{
   }
 
   /**
-   * Gets the a person by id
+   * Gets a person by id
    *
    * @url GET /$id
    */
@@ -52,6 +52,17 @@ class PeopleController{
     if(!$person)
       throw new RestException(404, "Person mit der ID '".$id."' nicht gefunden.");
     return $person->person;
+  }
+
+  /**
+   * Deletes a person by id
+   *
+   * @url DELETE /$id
+   */
+  public function deletePerson( $id = null){
+    // TODO: param check
+    $result = Gateway_Base::factory('people')->delete($id);
+    return ["result" => $result];
   }
 
 }

@@ -73,7 +73,6 @@ class Gateway_Base
   {
     if ( !$id )
       return false;
-
     $result = $this->find(array("'".$id."'"));
     return isset($result[$id]) ? $result[$id] : false;
   }
@@ -86,7 +85,27 @@ class Gateway_Base
     $sql .= ' ('.implode(',',$ids).')';
     return $this->getAll($sql);
   }
-  
+
+  protected function delete ( $table, $ids ){
+    if(!isset($table) || !isset($ids)){
+      echo 'not set';
+      return false;
+    }
+
+    $sql = "UPDATE \"".$table."\"
+            SET \"deleted\" = TRUE
+            WHERE \"data\" ->> 'id' IN (";
+
+    if ( is_array($ids) ) {
+      $sql .= "'".implode("','",$ids)."')";
+    } else {
+      $sql .= "'".$ids."')";
+    }
+
+    $this->executeStatement($sql,array(),false);
+    return $this->statement->errorCode() == 0;
+  }
+
   protected function getValue ( $value, $colName, &$sql, &$data, $emptyStringIsNull = true )
   {
     if ( $value === null || ($value === '' && $emptyStringIsNull) )

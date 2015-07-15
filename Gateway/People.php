@@ -16,6 +16,10 @@ class Gateway_People extends Gateway_Base{
     return $people;
   }
 
+  public function delete( $ids ){
+    return parent::delete('people', $ids);
+  }
+
 }
 
 ?>
