@@ -86,9 +86,19 @@ class Gateway_Base
     return $this->getAll($sql);
   }
 
+  protected function create ($table, $doc){
+    if(!isset($table) || !isset($doc)){
+      return false;
+    }
+
+    $sql = "INSERT INTO \"".$table."\"
+            (\"data\")
+            VALUES (?)";
+    return $this->query($sql, array($doc));
+  }
+
   protected function delete ( $table, $ids ){
     if(!isset($table) || !isset($ids)){
-      echo 'not set';
       return false;
     }
 
@@ -124,8 +134,9 @@ class Gateway_Base
   {
     $this->statement = $this->connection->prepare($sql);
     $this->statement->execute(array_values($data));
-    if ( $this->statement->errorCode() > 0 && $stopOnError )
-      throw new Exception('DB-Fehler: '.var_export($this->statement->errorInfo()));
+    if ( $this->statement->errorCode() > 0 && $stopOnError ){
+      throw new Exception('DB-Fehler: '.implode(', ',$this->statement->errorInfo()));
+    }
   }
   
 }

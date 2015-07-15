@@ -20,6 +20,24 @@ class Gateway_People extends Gateway_Base{
     return parent::delete('people', $ids);
   }
 
+  public function create ( $person ){
+    // Falls im Request bereits eine ID im JSON vorhanden ist, wird diese ignoriert.
+    // Nur eine ID am Person-Objekt dirket wird berücksichtigt.
+    if(is_null($person->id)){
+      $person->id = str_replace('.','-',uniqid('', true));
+    }
+    $id = $person->id;
+    $person->person->id = $id;
+    $doc = json_encode($person->person);
+
+    if(parent::create('people', $doc)){
+      return $id;
+    } else {
+      return false;
+    }
+
+  }
+
 }
 
 ?>
