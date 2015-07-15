@@ -54,15 +54,16 @@ $paths = array($GLOBALS['Settings']['RootPath'],
 	       $GLOBALS['Settings']['RootPath']."/Gateway",
 	       $GLOBALS['Settings']['RootPath']."/Model",
 	       );
-ini_set('include_path',implode(":",$paths));
+ini_set('include_path',implode(PATH_SEPARATOR,$paths));
 
 
 function autoload ( $class )
 {
-  if ( $class == 'Smarty' )
-    include_once("Smarty.class.php");
-  else
-    include_once(str_replace('_','/',$class).".php");
+  if(strpos($class,'_')!==false){
+    include_once(str_replace('_','/',$class).'.php');
+  }else{
+    include_once($class.'.php');
+  }
 }
 spl_autoload_register('autoload');
 require $GLOBALS['Settings']['RootPath'].'/vendor/autoload.php';

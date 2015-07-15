@@ -1,13 +1,12 @@
 <?php
   
   use Jacwright\RestServer\RestException;
-
 class PeopleController{
   
   /**
    * Gibt das aktuelle Datum zurück.
    *
-   * @url GET /
+   * @url GET /test
    * @noAuth
    */
   public function test()
@@ -41,6 +40,18 @@ class PeopleController{
            $GLOBALS['Settings']['DB'],
            ['pdo_drivers' => PDO::getAvailableDrivers()]
     );
+  }
+
+  /**
+   * Gets the a person by id
+   *
+   * @url GET /$id
+   */
+  public function getPerson( $id = null){
+    $person = Gateway_Base::factory('people')->findOne($id);
+    if(!$person)
+      throw new RestException(404, "Person mit der ID '".$id."' nicht gefunden.");
+    return $person->person;
   }
 
 }

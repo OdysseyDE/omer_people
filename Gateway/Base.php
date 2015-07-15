@@ -7,7 +7,7 @@ class Gateway_Base
   
   final public function __construct ( )
   {
-    $dsn = sprintf('pgsql:host:%s;dbname=%s',$GLOBALS['Settings']['DB']['Host'],$this->databaseName());
+    $dsn = sprintf('pgsql:host=%s;dbname=%s',$GLOBALS['Settings']['DB']['Host'],$this->databaseName());
     try
       {
         $this->connection = new PDO($dsn,$GLOBALS['Settings']['DB']['User'],$GLOBALS['Settings']['DB']['Password']);
@@ -24,6 +24,10 @@ class Gateway_Base
     return new $className;
   }
 
+  public function databaseName ( )
+  {
+    return $GLOBALS['Settings']['DB']['Database'];
+  }
 
   public function query ( $sql, $data = array() )
   {
@@ -60,38 +64,17 @@ class Gateway_Base
     return $this->statement->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function delete ( $ids )
+  public function truncate ( $table, $cascade = false )
   {
-    if ( empty($ids) )
-      return true;
-
-    $sql = "DELETE FROM IDs WHERE ID IN (";
-    if ( is_array($ids) )
-      $sql .= implode(",",$ids).")";
-    else
-      $sql .= addslashes($ids).")";
-
-    $this->executeStatement($sql,array(),false);
-    return $this->statement->errorCode() == 0;
-  }
-
-  public function truncate ( $table )
-  {
-    $this->delete($this->getCol("SELECT ID FROM `$table`"));
-    $this->query("TRUNCATE `$table`");
-  }
-
-  public function databaseName ( )
-  {
-    return $GLOBALS['Settings']['DB']['Database'];
+    $this->query("TRUNCATE `$table`".$cascade ? " CASCADE" : "");
   }
 
   public function findOne ( $id )
   {
-    if ( $id == 0 )
+    if ( !$id )
       return false;
 
-    $result = $this->find(array($id));
+    $result = $this->find(array("'".$id."'"));
     return isset($result[$id]) ? $result[$id] : false;
   }
 
@@ -118,38 +101,12 @@ class Gateway_Base
     $sql["`$colName`"] = "`$colName` $comperator";
   }
 
-  protected function updateOrInsert ( $sql, $data, $table, $id, $idCol = 'id' )
-  {
-    if ( $id > 0 )
-      {
-        $this->updateEntry($sql,$data,$table,$id,$idCol);
-        return $id;
-      }
-
-    return $this->insertEntry($sql,$data,$table,$idCol);
-  }
-
-  protected function insertEntry ( $sql, $data, $table, $idCol = 'id' )
-  {
-    $insert = "INSERT INTO `$table` SET ".str_replace("EQUALS","=",implode(", ",$sql));
-    $this->query($insert,$data);
-
-    return $this->getOne($select,$data);
-  }
-
-  protected function updateEntry ( $sql, $data, $table, $id, $idCol = 'id' )
-  {
-    $update = "UPDATE $table SET ".str_replace("EQUALS","=",implode(", ",$sql))." WHERE $idCol = ?";
-    $data[] = $id;
-    return $this->query($update,$data);
-  }
-
   private function executeStatement ( $sql, $data, $stopOnError = true )
   {
     $this->statement = $this->connection->prepare($sql);
     $this->statement->execute(array_values($data));
     if ( $this->statement->errorCode() > 0 && $stopOnError )
-      throw new BasicException('DB-Fehler: '.var_export($this->statement->errorInfo()));
+      throw new Exception('DB-Fehler: '.var_export($this->statement->errorInfo()));
   }
   
 }
