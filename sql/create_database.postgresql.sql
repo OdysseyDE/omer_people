@@ -46,7 +46,7 @@ CREATE FUNCTION update_lastedited_column() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-   NEW.lastEdited = now(); 
+   NEW."lastEdited" = now(); 
    RETURN NEW;
 END;
 $$;
