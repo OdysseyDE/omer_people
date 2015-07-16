@@ -47,6 +47,7 @@ CREATE FUNCTION update_lastedited_column() RETURNS trigger
     AS $$
 BEGIN
    NEW."lastEdited" = now(); 
+   NEW."version"    = OLD."version" + 1; 
    RETURN NEW;
 END;
 $$;
