@@ -57,6 +57,7 @@ class PeopleController{
   /**
    * Creates a person by id
    *
+   * @url POST /
    * @url POST /$id
    */
   public function createPerson( $id = null, $data ){
@@ -69,7 +70,7 @@ class PeopleController{
       }
       return ["result" => $result];
     } catch (Exception $e){
-      throw new RestException(409,$e->getMessage());;
+      throw new RestException(409,$e->getMessage());
     }
   }
 
