@@ -38,6 +38,23 @@ class Gateway_People extends Gateway_Base{
 
   }
 
+  public function update ( $person ){
+    if(is_null($person->id) && is_null($person->person->id)){
+      throw new Error('Keine ID angegeben!');
+    }
+    $id = $person->id;
+    $old = $this->findOne($id);
+    if(!$old){
+      throw new Error("Person mit der ID '".$id."' nicht gefunden!");
+    }
+    foreach($person->person as $key => $value){
+      if(!($key == 'id'))
+        $old->person->$key = $value;
+    }
+    $doc = json_encode($old->person);
+    return parent::update('people', $id, $doc);
+  }
+
 }
 
 ?>

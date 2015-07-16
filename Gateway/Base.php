@@ -116,6 +116,18 @@ class Gateway_Base
     return $this->statement->errorCode() == 0;
   }
 
+  protected function update ($table, $id, $doc ){
+    if(!isset($table) || !isset($id) || !isset($doc)){
+      return false;
+    }
+
+   $sql = " UPDATE \"people\" 
+            SET \"data\" = ?
+            WHERE \"data\" ->> 'id' = ?";
+
+   return $this->query($sql, array($doc, $id));
+  }
+
   protected function getValue ( $value, $colName, &$sql, &$data, $emptyStringIsNull = true )
   {
     if ( $value === null || ($value === '' && $emptyStringIsNull) )

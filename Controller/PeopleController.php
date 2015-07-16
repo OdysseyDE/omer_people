@@ -55,12 +55,14 @@ class PeopleController{
   }
 
   /**
-   * Creates a person by id
+   * Creates a person with supplied id or assigns a new one
    *
    * @url POST /
    * @url POST /$id
    */
-  public function createPerson( $id = null, $data ){
+  public function createPerson( $id = null, $data = null){
+    if(is_null($data))
+      throw new RestException(400, 'Keine Person übergeben!');
     $person = new Person($id, $data);
     try{
       $result = Gateway_Base::factory('people')->create($person);
@@ -69,6 +71,29 @@ class PeopleController{
         return ["id" => $result];
       }
       return ["result" => $result];
+    } catch (Exception $e){
+      throw new RestException(409,$e->getMessage());
+    }
+  }
+
+   /**
+   * Updates a person by id
+   *
+   * @url PUT /$id
+   */
+  public function updatePerson( $id = null, $data = null){
+    if(is_null($data))
+      throw new RestException(400, 'Keine Person übergeben!');
+    $person = new Person($id, $data);
+    if(isset($person->person->id) && !($person->id == $person->person->id))
+       throw new RestException(409, 'ID-Parameter und ID innerhalb des JSON stimmen nicht überein!');
+    try{
+      $result = Gateway_Base::factory('people')->update($person);
+      if($result){
+        http_response_code(204);
+      } else{
+        throw new Exception('Fehler beim Update.');
+      }
     } catch (Exception $e){
       throw new RestException(409,$e->getMessage());
     }
