@@ -73,7 +73,7 @@ abstract class BaseClass
         }
 
     if ( !property_exists($this,$name) )
-      throw new BasicException(get_class($this).' does not have getable property: '.$name);
+      throw new Exception(get_class($this).' does not have getable property: '.$name);
     return $this->$name;
   }
 
@@ -93,7 +93,7 @@ abstract class BaseClass
   public function __set ( $name, $value )
   {
     if ( isset($this->noSet[$name]) )
-      throw new NoSetAllowedException($name.' may not be set directly.');;
+      throw new Exception($name.' may not be set directly.');;
 
     $function = 'set'.$name;
     if ( method_exists($this,$function) )
@@ -108,10 +108,10 @@ abstract class BaseClass
         }
 
     if ( !property_exists($this,$name) )
-      throw new BasicException(get_class($this).' does not have setable property: '.$name);
+      throw new Exception(get_class($this).' does not have setable property: '.$name);
 
     if ( isset($this->classRestrictions[$name]) && $value !== null && !is_a($value,$this->classRestrictions[$name]) )
-      throw new BasicException('property: '.$name.' of class '.get_class($this).' has to have type '.$this->classRestrictions[$name]);
+      throw new Exception('property: '.$name.' of class '.get_class($this).' has to have type '.$this->classRestrictions[$name]);
 
     $this->$name = $value;
     if ( isset($this->conversions[$name]) )
@@ -123,7 +123,7 @@ abstract class BaseClass
           case 'boolNull' :
             $this->$name = $this->$name === null ? null : (bool)$this->$name; break;
           default :
-            throw new BasicException($this->conversions[$name].' type conversion not supported');
+            throw new Exception($this->conversions[$name].' type conversion not supported');
           }
       }
   }
