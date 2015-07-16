@@ -9,6 +9,7 @@ Personenverwaltung für Odyssey of the Mind Deutschland e.V.
 
 # Installation
 - composer update
+- SQL ausführen
 
 # Apache conf
 ```Apache
@@ -24,4 +25,7 @@ Personenverwaltung für Odyssey of the Mind Deutschland e.V.
 	#FallbackResource "index.php"
 </Directory>
 ```
-
+# TODO
+- Optimistic locking
+- Auth
+- (Unit-) Tests
