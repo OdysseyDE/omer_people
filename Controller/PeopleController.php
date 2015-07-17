@@ -107,6 +107,9 @@ class PeopleController{
   public function deletePerson( $id = null ){
     // TODO: param check
     $result = Gateway_Base::factory('people')->delete($id);
+    if($result === false){
+      http_response_code(403);
+    }
     return ["result" => $result];
   }
 
