@@ -26,6 +26,7 @@ Personenverwaltung für Odyssey of the Mind Deutschland e.V.
 </Directory>
 ```
 # TODO
+- Suche (vorerst Name, Vorname)
 - Optimistic locking
 - Auth
 - (Unit-) Tests
