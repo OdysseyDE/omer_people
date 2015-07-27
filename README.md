@@ -50,3 +50,4 @@ Personenverwaltung für Odyssey of the Mind Deutschland e.V.
 - Optimistic locking
 - Auth
 - (Unit-) Tests
+- Dockerize it?
