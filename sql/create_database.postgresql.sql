@@ -11,7 +11,6 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
-SET row_security = off;
 
 --
 -- Name: omer-mdata; Type: SCHEMA; Schema: -; Owner: omer-mdata
@@ -122,7 +121,7 @@ COMMENT ON COLUMN people."lastEditor" IS 'letzter Bearbeiter';
 -- Name: idxginp; Type: INDEX; Schema: omer-mdata; Owner: omer-mdata
 --
 
-CREATE INDEX idxginp ON people USING gin (data jsonb_path_ops);
+CREATE INDEX idxginp ON people USING gin (data json_path_ops);
 
 
 --
