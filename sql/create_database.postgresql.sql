@@ -64,7 +64,7 @@ SET default_with_oids = false;
 --
 
 CREATE TABLE people (
-    data jsonb NOT NULL,
+    data json NOT NULL,
     deleted boolean DEFAULT false NOT NULL,
     version integer DEFAULT 1 NOT NULL,
     "lastEdited" timestamp with time zone DEFAULT now() NOT NULL,
