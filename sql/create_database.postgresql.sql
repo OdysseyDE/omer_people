@@ -121,7 +121,7 @@ COMMENT ON COLUMN people."lastEditor" IS 'letzter Bearbeiter';
 -- Name: idxginp; Type: INDEX; Schema: omer-mdata; Owner: omer-mdata
 --
 
-CREATE INDEX idxginp ON people USING gin (data json_path_ops);
+-- CREATE INDEX idxginp ON people USING gin (data json_path_ops);
 
 
 --

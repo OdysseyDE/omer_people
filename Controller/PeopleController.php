@@ -1,6 +1,7 @@
 <?php
   
-  use Jacwright\RestServer\RestException;
+use Jacwright\RestServer\RestException;
+
 class PeopleController{
   
   /**
